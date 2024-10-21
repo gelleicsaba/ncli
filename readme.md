@@ -121,5 +121,13 @@ ncli test
 "test-option": options using for test generation\
 "input-comments": you can specify the default request json data (e.g. {"name":"","pass":""} ), if is is true, write over these block with your json data
 
+### Tester
+After generate the tester the html will be in the specified path.
+![image](https://github.com/user-attachments/assets/c9613fca-ae0f-4b03-a559-6d6634403e45)
+
+
 ### Important
 Use file backups before you use cli. There isn't rollback function.
+
+
+
