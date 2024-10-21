@@ -556,7 +556,7 @@ def main():
                     if rt == "/":
                         rt = ""
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -570,7 +570,7 @@ def main():
                     if rt == "/":
                         rt = ""
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -584,7 +584,7 @@ def main():
                     if rt == "/":
                         rt = ""
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -598,7 +598,7 @@ def main():
                     if rt == "/":
                         rt = ""
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -660,7 +660,7 @@ def main():
         routerList = []
         id=100000
         for gr in rgroups:
-            print(f"{gr[0]} group:\n")
+            # print(f"{gr[0]} group:\n")
             tmp = f"{routesPath}/{gr[0]}{ext}"
 
             rd = []
@@ -684,7 +684,7 @@ def main():
                         rt = ""
 
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -699,7 +699,7 @@ def main():
                         rt = ""
 
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -714,7 +714,7 @@ def main():
                         rt = ""
 
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]
@@ -729,7 +729,7 @@ def main():
                         rt = ""
 
                     template=""
-                    if rd[row+1].__contains__("/*<request-template>"):
+                    if s["test-options"]["input-comments"] and rd[row+1].__contains__("/*<request-template>"):
                         tt = row + 2
                         while not rd[tt].__contains__("</request-template>*/") and tt < len(rd):
                             template += rd[tt]

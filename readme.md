@@ -119,7 +119,7 @@ ncli test
 "route-params": use async/await in function? request/response var names or types, etc...\
 "route-body": extra lines to add the function body (after the start and before the end)\
 "test-option": options using for test generation\
-"input-comments": you can specify the default request json data (e.g. {"name":"","pass":""} ), if is is true, write over these block with your json data
+"input-comments": you can specify the default request json data (e.g. {"name":"","pass":""} ), if is is true, write over these comment blocks with your json data
 
 ### Tester
 After generate the tester the html will be in the specified path.
