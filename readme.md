@@ -66,7 +66,7 @@ I haven't tested in windows yet. I think it should work.
 
   Remove specific api in the router (NOT WORKING YET!):
 
-    ncli remove route user -api="PUT /form"
+    ncli remove route user "-api=PUT /form"
 ```
 ###    List all routes:
 ```

@@ -140,7 +140,7 @@ def main():
         print("")
         print("  Remove specific api in the router:")
         print("")
-        print("    ncli remove route user -api=\"PUT /form\"")
+        print("    ncli remove route user \"-api=PUT /form\"")
         print("")
         print("  List all routes:")
         print("")
