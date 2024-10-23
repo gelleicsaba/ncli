@@ -116,7 +116,7 @@ ncli test
 "file-options": you can append the file names (e.g. %.router ==> user.router.ts )\
 "var-options": you can append the var names (e.g. %Router ===> userRouter )\
 "router-imports": optional array, if its [], it will be empty, other cases it will be added to the files\
-"rest-options": if you use '-rest' option, add the specified CRUD service\
+"rest-options": if you use '-rest' option, the cli is going to add the specified CRUD service\
 "route-params": use async/await in function? request/response var names or types, etc...\
 "route-body": extra lines to add the function body (after the start and before the end)\
 "test-option": options using for test generation\
