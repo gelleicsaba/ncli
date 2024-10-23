@@ -520,7 +520,7 @@ def main():
             for line in f:
                 mainContent.append(line)
         for line in mainContent:
-            if line.__contains__(f"use{addSpace}("):
+            if line.__contains__(f"use{addSpace}(") or line.__contains__(f"use("):
                 tmp = line.split(",")
                 if len(tmp) == 2:
                     rName = tmp[1].strip().replace(f"{extr}","").replace(")","")
