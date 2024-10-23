@@ -111,6 +111,7 @@ ncli test
 "empty-exports": prevent the nodejs typescipt import problem\
 "beautify": beauty the code or not\
 "structure": the source file paths and main file location\
+"import-relative-paths": specify the require relative paths (router imports)\
 "server-options": server options in main file (e.g. host,port,cors options)\
 "file-options": you can append the file names (e.g. %.router ==> user.router.ts )\
 "var-options": you can append the var names (e.g. %Router ===> userRouter )\
