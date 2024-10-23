@@ -291,7 +291,7 @@ def main():
                         f.write(f"\t{dcl.replace(";","")}\n")
                     else:
                         f.write(f"\t{dcl}{endmark}\n")
-                f.write("}\n\n")
+                f.write("})\n\n")
 
             # if -rest or/and -api= defined
             else:
@@ -332,7 +332,7 @@ def main():
                                 f.write(f"\t{dcl.replace(";","")}\n")
                             else:
                                 f.write(f"\t{dcl}{endmark}\n")
-                        f.write("}\n\n")
+                        f.write("})\n\n")
                 # if -api= defined, create a GET,POST,PUT etc. routes
                 if api != None:
                     apityp = api.split(" ")[0]
@@ -360,7 +360,7 @@ def main():
                             f.write(f"\t{dcl.replace(";","")}\n")
                         else:
                             f.write(f"\t{dcl}{endmark}\n")
-                    f.write("}\n\n")
+                    f.write("})\n\n")
 
             f.write(f"module.exports = {routerVar}{endmark}\n")
             f.close()
@@ -458,7 +458,7 @@ def main():
                 else:
                     content.insert(idx, f"\t{dcl}{endmark}\n")
                     idx += 1
-            content.insert(idx, "}\n\n")
+            content.insert(idx, "})\n\n")
             idx += 1
 
             with open(routerFile, 'w') as f3:
@@ -645,7 +645,7 @@ def main():
             for line in f:
                 mainContent.append(line)
         for line in mainContent:
-            if line.__contains__(f"use{addSpace}("):
+            if line.__contains__(f"use{addSpace}(") or line.__contains__(f"use("):
                 tmp = line.split(",")
                 if len(tmp) == 2:
                     rName = tmp[1].strip().replace(f"{extr}","").replace(")","")

@@ -5,7 +5,7 @@
     "appname": "app",
     "structure": {
         "src": "src",
-        "routes": "src/routes",
+        "routes": "src/controllers",
         "services": "src/services",
         "server": "src/server.ts"
     },
