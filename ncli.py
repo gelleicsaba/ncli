@@ -380,7 +380,7 @@ def main():
             idx = len(content)-1
             while idx > 0 and not content[idx].__contains__("require"):
                 idx = idx - 1
-            content.insert(idx+1, f"const {{ {routerVar} }} = require{addSpace}({quotes}./{s["structure"]["routes"]}/{routerName}{quotes})\n")
+            content.insert(idx+1, f"const {routerVar} = require{addSpace}({quotes}{s["import-relative-paths"]["import-router"]}/{routerName}{quotes})\n")
 
             # Write the main file (e.g.: server.js)
             with open(mainFile, 'w') as f3:

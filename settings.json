@@ -9,6 +9,10 @@
         "services": "src/services",
         "server": "src/server.ts"
     },
+    "import-relative-paths": {
+        "import-router": "./controllers",
+        "import-service": "./services"
+    },
     "server-options": {
         "host": "localhost",
         "port": 3000,
