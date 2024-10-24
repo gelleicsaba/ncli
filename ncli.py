@@ -354,6 +354,16 @@ def main():
                         else:
                             f.write(f"\t{dcl}{endmark}\n")
 
+                    if params != None:
+                        params = params.split("|")
+                        for par in params:
+                            if settings["typescript"]:
+                                parName = par.split(":")[0].strip()
+                                parTyp = par.split(":")[1].strip()
+                                f.write(f"\tconst {parName} :{parTyp} = {s["route-params"]["request"]}.params.{parName.replace("?","")}{endmark}\n")
+                            else:
+                                f.write(f"\tconst {par} = {s["route-params"]["request"]}.params.{par}{endmark}\n")
+
                     f.write("\n")
                     for dcl in s["route-body"]["end"]:
                         if s["beautify"]:
@@ -418,7 +428,7 @@ def main():
             else:
                 content.insert(idx, f"{routerVar}.{an}{addSpace}(\"{apiroute}\", {extraopt}{asyncret} ({s["route-params"]["request"]}, {s["route-params"]["response"]}) => "+"{\n")
                 idx += 1
-            if s["test-options"]["input-comments"]:
+            if an != "get" and s["test-options"]["input-comments"]:
                 content.insert(idx, "\t/*<request-template>\n")
                 idx += 1
                 content.insert(idx, "\t\t{\n")
@@ -443,10 +453,10 @@ def main():
                     if settings["typescript"]:
                         parName = par.split(":")[0].strip()
                         parTyp = par.split(":")[1].strip()
-                        content.insert(idx, f"\tconst {parName} :{parTyp} = {s["route-params"]["request"]}.body.{parName.replace("?","")}{endmark}\n")
+                        content.insert(idx, f"\tconst {parName} :{parTyp} = {s["route-params"]["request"]}.params.{parName.replace("?","")}{endmark}\n")
                         idx += 1
                     else:
-                        content.insert(idx, f"\tconst {par} = {s["route-params"]["request"]}.body.{par}{endmark}\n")
+                        content.insert(idx, f"\tconst {par} = {s["route-params"]["request"]}.params.{par}{endmark}\n")
                         idx += 1
 
             content.insert(idx, "\n")
