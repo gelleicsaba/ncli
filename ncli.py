@@ -1,4 +1,4 @@
-version="1.0-beta"
+version="1.1"
 import json
 import sys
 import os
@@ -374,13 +374,13 @@ def main():
             # insert the route addition after last .use line
             while idx > 0 and not content[idx].__contains__(f"{s["appname"]}.use"):
                 idx = idx - 1
-            content.insert(idx+1, f"{s["appname"]}.use{addSpace}(\"{routeGroup}\", {routerVar}){endmark}\n")
+            content.insert(idx+1, f"{s["appname"]}.use(\"{routeGroup}\", {routerVar}){endmark}\n")
 
             # export the route after last require
             idx = len(content)-1
             while idx > 0 and not content[idx].__contains__("require"):
                 idx = idx - 1
-            content.insert(idx+1, f"const {routerVar} = require{addSpace}({quotes}{s["import-relative-paths"]["import-router"]}/{routerName}{quotes})\n")
+            content.insert(idx+1, f"const {routerVar} = require({quotes}{s["import-relative-paths"]["import-router"]}/{routerName}{quotes})\n")
 
             # Write the main file (e.g.: server.js)
             with open(mainFile, 'w') as f3:
@@ -474,33 +474,33 @@ def main():
             with open(mainFile, 'w') as f:
                 if s["empty-exports"]:
                     f.write("export {}\n")
-                f.write(f"const express = require{addSpace}({quotes}express{quotes}){endmark}\n")
-                f.write(f"const bodyParser = require{addSpace}({quotes}body-parser{quotes}){endmark}\n")
+                f.write(f"const express = require({quotes}express{quotes}){endmark}\n")
+                f.write(f"const bodyParser = require({quotes}body-parser{quotes}){endmark}\n")
                 f.write("\n")
                 f.write(f"const PORT = {s["server-options"]["port"]}{endmark}\n")
                 f.write(f"const HOST_NAME = {quotes}{s["server-options"]["host"]}{quotes}{endmark}\n")
                 f.write("\n")
-                f.write(f"const {appname} = express{addSpace}(){endmark}\n")
-                f.write(f"{appname}.use{addSpace}(express.static{addSpace}({quotes}client{quotes})){endmark}\n")
-                f.write(f"{appname}.use{addSpace}(bodyParser.urlencoded{addSpace}({{extended: true}})){endmark}\n")
+                f.write(f"const {appname} = express(){endmark}\n")
+                f.write(f"{appname}.use(express.static({quotes}client{quotes})){endmark}\n")
+                f.write(f"{appname}.use(bodyParser.urlencoded({{extended: true}})){endmark}\n")
 
                 if s["server-options"]["enable-cors"]:
 
                     if s["typescript"]:
-                        f.write(f"{appname}.use{addSpace}( ({s["route-params"]["request"]}: any, {s["route-params"]["response"]}: any, next: any) => {{\n")
+                        f.write(f"{appname}.use( ({s["route-params"]["request"]}: any, {s["route-params"]["response"]}: any, next: any) => {{\n")
                     else:
-                        f.write(f"{appname}.use{addSpace}( ({s["route-params"]["request"]}, {s["route-params"]["response"]}, next) => {{\n")
+                        f.write(f"{appname}.use( ({s["route-params"]["request"]}, {s["route-params"]["response"]}, next) => {{\n")
 
-                    f.write(f"\t{s["route-params"]["response"]}.header{addSpace}(\"Access-Control-Allow-Origin\", \"{s["server-options"]["allow-sources"]}\"){endmark}\n")
-                    f.write(f"\t{s["route-params"]["response"]}.header{addSpace}(\"Access-Control-Allow-Methods\", \"{s["server-options"]["allow-methods"]}\"){endmark}\n")
-                    f.write(f"\t{s["route-params"]["response"]}.header{addSpace}(\"Access-Control-Allow-Headers\", \"{s["server-options"]["allow-headers"]}\"){endmark}\n")
-                    f.write(f"\t{endmark}next{addSpace}(){endmark}\n")
+                    f.write(f"\t{s["route-params"]["response"]}.header(\"Access-Control-Allow-Origin\", \"{s["server-options"]["allow-sources"]}\"){endmark}\n")
+                    f.write(f"\t{s["route-params"]["response"]}.header(\"Access-Control-Allow-Methods\", \"{s["server-options"]["allow-methods"]}\"){endmark}\n")
+                    f.write(f"\t{s["route-params"]["response"]}.header(\"Access-Control-Allow-Headers\", \"{s["server-options"]["allow-headers"]}\"){endmark}\n")
+                    f.write(f"\t{endmark}next(){endmark}\n")
                     f.write(f"}})\n")
 
                 # app.use ("/user", userRouter)
                 f.write("\n")
-                f.write(f"{appname}.listen{addSpace}(PORT, HOST_NAME, () => {{\n")
-                f.write(f"\tconsole.log{addSpace}(`Server running at ${{HOST_NAME}}:${{PORT}}`){endmark}\n")
+                f.write(f"{appname}.listen(PORT, HOST_NAME, () => {{\n")
+                f.write(f"\tconsole.log(`Server running at ${{HOST_NAME}}:${{PORT}}`){endmark}\n")
                 f.write(f"}})")
             print(f"{bcolors.OKBLUE}{bcolors.BOLD}'{s["structure"]["server"]}' has been created.{bcolors.ENDC}")
         else:

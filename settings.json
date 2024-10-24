@@ -52,14 +52,14 @@
             "response-type": "any",
             "nullable": true
         },
-        "extra-option": "express.json ({type: '*/*'})"
+        "extra-option": "express.json({type: '*/*'})"
     },
     "route-body": {
         "start": [
             "const data = req.body"
         ],
         "end": [
-            "rsp.json ({'success': true})",
+            "rsp.json({'success': true})",
             "rsp.end"
         ],
         "double-quotes": true
