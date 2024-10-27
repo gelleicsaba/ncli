@@ -326,6 +326,11 @@ def main():
                             else:
                                 f.write(f"\t{dcl}{endmark}\n")
 
+                        if s["route-params"]["authorization"]:
+                            par = s["route-params"]["authorization-token"]
+                            f.write(f"\tconst {par} = {s["route-params"]["request"]}.headers.{par}{endmark}\n")
+
+
                         f.write("\n")
                         for dcl in s["route-body"]["end"]:
                             if s["beautify"]:
@@ -363,6 +368,10 @@ def main():
                                 f.write(f"\tconst {parName} :{parTyp} = {s["route-params"]["request"]}.params.{parName.replace("?","")}{endmark}\n")
                             else:
                                 f.write(f"\tconst {par} = {s["route-params"]["request"]}.params.{par}{endmark}\n")
+
+                    if s["route-params"]["authorization"]:
+                        par = s["route-params"]["authorization-token"]
+                        f.write(f"\tconst {par} = {s["route-params"]["request"]}.headers.{par}{endmark}\n")
 
                     f.write("\n")
                     for dcl in s["route-body"]["end"]:
@@ -458,6 +467,11 @@ def main():
                     else:
                         content.insert(idx, f"\tconst {par} = {s["route-params"]["request"]}.params.{par}{endmark}\n")
                         idx += 1
+
+            if s["route-params"]["authorization"]:
+                par = s["route-params"]["authorization-token"]
+                content.insert(idx, f"\tconst {par} = {s["route-params"]["request"]}.headers.{par}{endmark}\n")
+                idx += 1
 
             content.insert(idx, "\n")
             idx += 1
@@ -828,6 +842,10 @@ def createForm(rt, typ, id, template):
         outputContent.append(f"\t\t\t\t\t<label for=\"input{id}\">JSON input</label><br>")
         outputContent.append(f"\t\t\t\t\t<textarea id=\"input{id}\" name=\"input{id}\" value=\"\" rows=\"5\" class=\"text form-control\">{template}</textarea><br>")
 
+    if s["route-params"]["authorization"]:
+        outputContent.append(f"\t\t\t\t\t<label for=\"hash{id}\">{s["route-params"]["authorization-token"]}</label><br>")
+        outputContent.append(f"\t\t\t\t\t<input type=\"text\" id=\"hash{id}\" name=\"hash{id}\" value=\"\" class=\"text form-control\"/><br>")
+
     outputContent.append(f"\t\t\t\t\t<input type=\"button\" value=\"{typ.upper()}\" onclick=\"{typ}{id}(0)\" class=\"btn {btnstyle}\">&nbsp;&nbsp;<input type=\"button\" value=\"Clear\" onclick=\"{typ}{id}(1)\" class=\"btn btn-secondary\"><br>")
     outputContent.append(f"\t\t\t\t\t<label for=\"output{id}\">Output</label><br>")
     outputContent.append(f"\t\t\t\t\t<textarea id=\"output{id}\" name=\"output{id}\" value=\"\" rows=\"5\" class=\"text form-control\"></textarea><br>")
@@ -839,10 +857,16 @@ def createForm(rt, typ, id, template):
     if typ == "get":
         outputContent.append(f"\t\t\t\t\tconst rt = $('#route{id}')")
         outputContent.append(f"\t\t\t\t\tconst o = $('#output{id}')")
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\tconst hash = $('#hash{id}')")
         outputContent.append(f"\t\t\t\t\tif(c==1){{o.val('');return}}")
         outputContent.append(f"\t\t\t\t\t$.ajax({{")
         outputContent.append(f"\t\t\t\t\t\turl: '{root}'+rt.val(),")
         outputContent.append(f"\t\t\t\t\t\ttype: 'GET',")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\t\theaders: {{ '{s["route-params"]["authorization-token"]}': hash.val() }},")
+
         outputContent.append(f"\t\t\t\t\t\tsuccess: (res) => {{")
         outputContent.append(f"\t\t\t\t\t\t\tconsole.log(res)")
         outputContent.append(f"\t\t\t\t\t\t\to.val(JSON.stringify(res{pretty}))")
@@ -852,11 +876,19 @@ def createForm(rt, typ, id, template):
         outputContent.append(f"\t\t\t\t\tconst rt = $('#route{id}')")
         outputContent.append(f"\t\t\t\t\tconst i = $('#input{id}')")
         outputContent.append(f"\t\t\t\t\tconst o = $('#output{id}')")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\tconst hash = $('#hash{id}')")
+
         outputContent.append(f"\t\t\t\t\tif(c==1){{o.val('');return}}")
         outputContent.append(f"\t\t\t\t\t$.ajax({{")
         outputContent.append(f"\t\t\t\t\t\turl: '{root}'+rt.val(),")
         outputContent.append(f"\t\t\t\t\t\ttype: 'POST',")
         outputContent.append(f"\t\t\t\t\t\tdata: JSON.parse(i.val()),")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\t\theaders: {{ '{s["route-params"]["authorization-token"]}': hash.val() }},")
+
         outputContent.append(f"\t\t\t\t\t\tsuccess: (res) => {{")
         outputContent.append(f"\t\t\t\t\t\t\tconsole.log(res)")
         outputContent.append(f"\t\t\t\t\t\t\to.val(JSON.stringify(res{pretty}))")
@@ -866,11 +898,19 @@ def createForm(rt, typ, id, template):
         outputContent.append(f"\t\t\t\t\tconst rt = $('#route{id}')")
         outputContent.append(f"\t\t\t\t\tconst i = $('#input{id}')")
         outputContent.append(f"\t\t\t\t\tconst o = $('#output{id}')")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\tconst hash = $('#hash{id}')")
+
         outputContent.append(f"\t\t\t\t\tif(c==1){{o.val('');return}}")
         outputContent.append(f"\t\t\t\t\t$.ajax({{")
         outputContent.append(f"\t\t\t\t\t\turl: '{root}'+rt.val(),")
         outputContent.append(f"\t\t\t\t\t\ttype: 'PUT',")
         outputContent.append(f"\t\t\t\t\t\tdata: JSON.parse(i.val()),")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\t\theaders: {{ '{s["route-params"]["authorization-token"]}': hash.val() }},")
+
         outputContent.append(f"\t\t\t\t\t\tsuccess: (res) => {{")
         outputContent.append(f"\t\t\t\t\t\t\tconsole.log(res)")
         outputContent.append(f"\t\t\t\t\t\t\to.val(JSON.stringify(res{pretty}))")
@@ -880,11 +920,19 @@ def createForm(rt, typ, id, template):
         outputContent.append(f"\t\t\t\t\tconst rt = $('#route{id}')")
         outputContent.append(f"\t\t\t\t\tconst i = $('#input{id}')")
         outputContent.append(f"\t\t\t\t\tconst o = $('#output{id}')")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\tconst hash = $('#hash{id}')")
+
         outputContent.append(f"\t\t\t\t\tif(c==1){{o.val('');return}}")
         outputContent.append(f"\t\t\t\t\t$.ajax({{")
         outputContent.append(f"\t\t\t\t\t\turl: '{root}'+rt.val(),")
         outputContent.append(f"\t\t\t\t\t\ttype: 'DELETE',")
         outputContent.append(f"\t\t\t\t\t\tdata: JSON.parse(i.val()),")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\t\theaders: {{ '{s["route-params"]["authorization-token"]}': hash.val() }},")
+
         outputContent.append(f"\t\t\t\t\t\tsuccess: (res) => {{")
         outputContent.append(f"\t\t\t\t\t\t\tconsole.log(res)")
         outputContent.append(f"\t\t\t\t\t\t\to.val(JSON.stringify(res{pretty}))")
@@ -894,11 +942,19 @@ def createForm(rt, typ, id, template):
         outputContent.append(f"\t\t\t\t\tconst rt = $('#route{id}')")
         outputContent.append(f"\t\t\t\t\tconst i = $('#input{id}')")
         outputContent.append(f"\t\t\t\t\tconst o = $('#output{id}')")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\tconst hash = $('#hash{id}')")
+
         outputContent.append(f"\t\t\t\t\tif(c==1){{o.val('');return}}")
         outputContent.append(f"\t\t\t\t\t$.ajax({{")
         outputContent.append(f"\t\t\t\t\t\turl: '{root}'+rt.val(),")
         outputContent.append(f"\t\t\t\t\t\ttype: 'PATCH',")
         outputContent.append(f"\t\t\t\t\t\tdata: JSON.parse(i.val()),")
+
+        if s["route-params"]["authorization"]:
+            outputContent.append(f"\t\t\t\t\t\theaders: {{ '{s["route-params"]["authorization-token"]}': hash.val() }},")
+
         outputContent.append(f"\t\t\t\t\t\tsuccess: (res) => {{")
         outputContent.append(f"\t\t\t\t\t\t\tconsole.log(res)")
         outputContent.append(f"\t\t\t\t\t\t\to.val(JSON.stringify(res{pretty}))")

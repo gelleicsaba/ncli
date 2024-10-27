@@ -51,7 +51,9 @@
             "response-type": "any",
             "nullable": true
         },
-        "extra-option": "express.json({type: '*/*'})"
+        "extra-option": "express.json({type: '*/*'})",
+        "authorization": true,
+        "authorization-token": "bearer"
     },
     "route-body": {
         "start": [
