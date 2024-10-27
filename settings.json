@@ -18,8 +18,7 @@
         "port": 3000,
         "enable-cors": true,
         "allow-sources": "*",
-        "allow-methods": "GET, POST, PUT, DELETE, PATCH",
-        "allow-headers": "X-Requested-With"
+        "allow-methods": "GET, POST, PUT, DELETE, PATCH, HEAD"
     },
     "file-options": {
         "router": "%",

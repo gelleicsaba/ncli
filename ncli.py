@@ -485,6 +485,7 @@ def main():
                 if s["empty-exports"]:
                     f.write("export {}\n")
                 f.write(f"const express = require({quotes}express{quotes}){endmark}\n")
+                f.write(f"const cors = require({quotes}cors{quotes}){endmark}\n")
                 f.write(f"const bodyParser = require({quotes}body-parser{quotes}){endmark}\n")
                 f.write("\n")
                 f.write(f"const PORT = {s["server-options"]["port"]}{endmark}\n")
@@ -496,16 +497,30 @@ def main():
 
                 if s["server-options"]["enable-cors"]:
 
+                    splitHeaders = s["server-options"]["allow-methods"].replace(" ","").split(",")
+                    splitHeadersText = ""
+                    for hd in splitHeaders:
+                        if splitHeadersText=="":
+                            splitHeadersText = f"\"{hd}\""
+                        else:
+                            splitHeadersText += f",\"{hd}\""
+
+                    f.write("\n/*\n")
                     if s["typescript"]:
                         f.write(f"{appname}.use( ({s["route-params"]["request"]}: any, {s["route-params"]["response"]}: any, next: any) => {{\n")
                     else:
                         f.write(f"{appname}.use( ({s["route-params"]["request"]}, {s["route-params"]["response"]}, next) => {{\n")
-
-                    f.write(f"\t{s["route-params"]["response"]}.header(\"Access-Control-Allow-Origin\", \"{s["server-options"]["allow-sources"]}\"){endmark}\n")
-                    f.write(f"\t{s["route-params"]["response"]}.header(\"Access-Control-Allow-Methods\", \"{s["server-options"]["allow-methods"]}\"){endmark}\n")
-                    f.write(f"\t{s["route-params"]["response"]}.header(\"Access-Control-Allow-Headers\", \"{s["server-options"]["allow-headers"]}\"){endmark}\n")
-                    f.write(f"\t{endmark}next(){endmark}\n")
+                    f.write(f"\t// specify other headers here \n")
+                    f.write(f"\tnext(){endmark}\n")
                     f.write(f"}})\n")
+                    f.write("*/\n\n")
+
+                    f.write(f"const corsOptions = {{\n")
+                    f.write(f"\torigin: '*',\n")
+                    f.write(f"\tcredentials: true,\n")
+                    f.write(f"\tmethods: [{splitHeadersText}]\n")
+                    f.write(f"}}{endmark}\n")
+                    f.write(f"app.use({addSpace}cors(corsOptions)){endmark}\n")
 
                 # app.use ("/user", userRouter)
                 f.write("\n")
